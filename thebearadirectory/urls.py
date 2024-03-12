@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from beara_home.views import my_beara_home
 
 urlpatterns = [
+   
     path('admin/', admin.site.urls),
+    path('beara_home/', my_beara_home, name='beara_home'),
 ]
