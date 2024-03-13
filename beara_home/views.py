@@ -21,10 +21,10 @@ class PostList(generic.ListView):
         
     **Template:**
 
-    :template:`beara_home/index.html`
+    :template:`beara_home/home.html`
     """
     queryset = Post.objects.filter(status=1)
-    template_name = "beara_home/index.html"
+    template_name = "beara_home/home.html"
     paginate_by = 6
 
 def post_detail(request, slug):
@@ -44,7 +44,7 @@ def post_detail(request, slug):
 
     **Template:**
 
-    :template:`beara_home/post_detail.html`
+    :template:`beara_home/home.html`
     """
     queryset = Post.objects.filter(status=1)
     post = get_object_or_404(queryset, slug=slug)
@@ -133,6 +133,16 @@ def comment_delete(request, slug, comment_id):
 
     return HttpResponseRedirect(reverse('post_detail', args=[slug]))
 
+from django.shortcuts import render
+from .models import Post
+
+def index_view(request):
+    return render(request, 'beara_home/index.html')
+
 def my_beara_home(request):
-    # Your view logic here
-    return render(request, 'index.html', context={})    
+    # Display the most recent post
+    latest_post = Post.objects.filter(status=1).order_by('-created_on').first()
+    comments = latest_post.comments.filter(approved=True).order_by('-created_on')
+    context = {'latest_post': latest_post, 'comments': comments}
+    return render(request, 'beara_home/home.html', context)
+

@@ -1,0 +1,13 @@
+<h1>Beara Directory</h1>
+
+{% if latest_post %}
+  <h3>{{ latest_post.content | safe }}</h3>
+  <h4>Comments:</h4>
+  <ul>
+    {% for comment in comments %}
+      <li>{{ comment.body }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No posts available</p>
+{% endif %}
