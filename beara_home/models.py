@@ -14,7 +14,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="blog_posts"
+        User, on_delete=models.CASCADE, related_name="beara_home_posts"
     )
     featured_image = CloudinaryField('image', default='placeholder')
     content = models.TextField()
@@ -33,7 +33,7 @@ class Post(models.Model):
 class Comment(models.Model):
     """
     Stores a single comment entry related to :model:`auth.User`
-    and :model:`blog.Post`.
+    and :model:`beara_home.Post`.
     """
     post = models.ForeignKey(Post, on_delete=models.CASCADE,
                              related_name="comments")

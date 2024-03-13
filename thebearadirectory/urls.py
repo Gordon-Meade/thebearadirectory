@@ -22,4 +22,5 @@ urlpatterns = [
    
     path('admin/', admin.site.urls),
     path('beara_home/', my_beara_home, name='beara_home'),
+    path('', my_beara_home, name='index'),
 ]
