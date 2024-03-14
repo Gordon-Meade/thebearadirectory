@@ -66,7 +66,7 @@ def post_detail(request, slug):
 
     return render(
         request,
-        "blog/post_detail.html",
+        "beara_home/home.html",
         {
             "post": post,
             "comments": comments,
@@ -116,7 +116,7 @@ def comment_delete(request, slug, comment_id):
     **Context**
 
     ``post``
-        An instance of :model:`blog.Post`.
+        An instance of :model:`beara_home.Post`.
     ``comment``
         A single comment related to the post.
     """
