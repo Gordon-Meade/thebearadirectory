@@ -9,43 +9,13 @@ from .forms import CommentForm
 
 
 class PostList(generic.ListView):
-    """
-    Returns all published posts in :model:`beara_home.Post`
-    and displays them in a page of six posts. 
-    **Context**
-
-    ``queryset``
-        All published instances of :model:`beara_home.Post`
-    ``paginate_by``
-        Number of posts per page.
-        
-    **Template:**
-
-    :template:`beara_home/home.html`
-    """
+   
     queryset = Post.objects.filter(status=1)
-    template_name = "beara_home/home.html"
+    template_name = "beara_home/posts.html"
     paginate_by = 6
 
 def post_detail(request, slug):
-    """
-    Display an individual :model:`beara_home.Post`.
-
-    **Context**
-
-    ``post``
-        An instance of :model:`beara_home.Post`.
-    ``comments``
-        All approved comments related to the post.
-    ``comment_count``
-        A count of approved comments related to the post.
-    ``comment_form``
-        An instance of :form:`beara_home.CommentForm`
-
-    **Template:**
-
-    :template:`beara_home/home.html`
-    """
+    
     queryset = Post.objects.filter(status=1)
     post = get_object_or_404(queryset, slug=slug)
     comments = post.comments.all().order_by("-created_on")
@@ -66,7 +36,7 @@ def post_detail(request, slug):
 
     return render(
         request,
-        "beara_home/home.html",
+        "beara_home/posts.html",
         {
             "post": post,
             "comments": comments,
@@ -77,18 +47,7 @@ def post_detail(request, slug):
 
 
 def comment_edit(request, slug, comment_id):
-    """
-    Display an individual comment for edit.
-
-    **Context**
-
-    ``post``
-        An instance of :model:`blog.Post`.
-    ``comment``
-        A single comment related to the post.
-    ``comment_form``
-        An instance of :form:`blog.CommentForm`
-    """
+    
     if request.method == "POST":
 
         queryset = Post.objects.filter(status=1)
@@ -110,16 +69,7 @@ def comment_edit(request, slug, comment_id):
 
 
 def comment_delete(request, slug, comment_id):
-    """
-    Delete an individual comment.
-
-    **Context**
-
-    ``post``
-        An instance of :model:`beara_home.Post`.
-    ``comment``
-        A single comment related to the post.
-    """
+    
     queryset = Post.objects.filter(status=1)
     post = get_object_or_404(queryset, slug=slug)
     comment = get_object_or_404(Comment, pk=comment_id)
@@ -133,8 +83,6 @@ def comment_delete(request, slug, comment_id):
 
     return HttpResponseRedirect(reverse('post_detail', args=[slug]))
 
-from django.shortcuts import render
-from .models import Post
 
 def index_view(request):
     return render(request, 'beara_home/index.html')
@@ -146,3 +94,9 @@ def my_beara_home(request):
     context = {'latest_post': latest_post, 'comments': comments}
     return render(request, 'beara_home/home.html', context)
 
+def posts_view(request):
+    return render(request, 'beara_home/posts.html')
+
+def post_list(request):
+    posts = Post.objects.filter(status=1)
+    return render(request, 'beara_home/posts.html', {'posts': posts})
