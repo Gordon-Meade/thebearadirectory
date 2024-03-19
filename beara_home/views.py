@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from .models import Post, Comment
 from .forms import CommentForm
 
+
 # Create your views here.
 
 
@@ -95,8 +96,7 @@ def my_beara_home(request):
     return render(request, 'beara_home/home.html', context)
 
 def posts_view(request):
-    return render(request, 'beara_home/posts.html')
+    posts = Post.objects.filter(status=1)  
+    context = {'posts': posts}
+    return render(request, 'beara_home/posts.html', context)
 
-def post_list(request):
-    posts = Post.objects.filter(status=1)
-    return render(request, 'beara_home/posts.html', {'posts': posts})
