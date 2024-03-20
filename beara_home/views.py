@@ -17,8 +17,8 @@ class PostList(generic.ListView):
 
 def post_detail(request, slug):
     
-    queryset = Post.objects.filter(status=1)
-    post = get_object_or_404(queryset, slug=slug)
+    
+    post = get_object_or_404(Post, slug=slug)
     print(post)
     comments = post.comments.all().order_by("-created_on")
     comment_count = post.comments.filter(approved=True).count()
@@ -38,7 +38,7 @@ def post_detail(request, slug):
 
     return render(
         request,
-        "beara_home/posts.html",
+        "beara_home/post.html",
         {
             "post": post,
             "comments": comments,
